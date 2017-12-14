@@ -38,10 +38,14 @@ def delete_task(task):
     lista = open('todolist.txt', 'r')
     lines = lista.readlines() 
     lista.close()
-    lista = open('todolist.txt', 'w')
-    # for line in lines:
-    #     if line != (int(sys.argv[2]) - 1), "\n":
-    #         lista.write(line)
+    lista = open('todolist.txt', 'w')  
+    if int(sys.argv[2]) == 1:
+        lines.pop(0)
+    else:
+        i = int(sys.argv[2]) - 1
+        lines.pop(i)
+    for line in lines:
+        lista.write(line)
 
 
 # CHECKING WHAT THE USER WANTS
