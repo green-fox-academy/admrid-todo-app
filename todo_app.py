@@ -10,6 +10,20 @@ def usage():
 
 
 # LISTS TASKS FROM THE TXT FILE
+# def listreader():
+#     lista = open('todolist.txt', 'r')
+#     lines = lista.readlines()    
+#     # EMPTY LIST
+#     if lines == []:
+#         print('No todos for today! :)')
+#         lista.close()
+#     else:
+#         print('\n\nTodos for today:\n')
+#         for i in range(len(lines)):
+#             print(str(i+1) + ' ' + '-' + ' ' + '[ ]' + ' ' + lines[i].strip())
+#         print('\n')
+#         lista.close()
+
 def listreader():
     lista = open('todolist.txt', 'r')
     lines = lista.readlines()    
@@ -20,7 +34,10 @@ def listreader():
     else:
         print('\n\nTodos for today:\n')
         for i in range(len(lines)):
-            print(str(i+1) + ' ' + '-' + ' ' + lines[i].strip())
+            if lines[i][-1] == 'x':
+                print(str(i+1) + ' ' + '-' + ' ' + '[x]' + ' ' + lines[i].strip())
+            else:
+                print(str(i+1) + ' ' + '-' + ' ' + '[ ]' + ' ' + lines[i].strip())
         print('\n')
         lista.close()
     
@@ -48,6 +65,21 @@ def delete_task(task):
         lista.write(line)
 
 
+# CHECK TASK
+def check_task(task):
+    lista = open('todolist.txt', 'r')
+    lines = lista.readlines() 
+    lista.close()
+    lista = open('todolist.txt', 'w')  
+    if int(sys.argv[2]) == 1:    
+        lines[0] = (line + ' x')
+    else:
+        i = int(sys.argv[2]) - 1
+        lines.pop(i)
+    for line in lines:
+        lista.write(line)
+
+
 # CHECKING WHAT THE USER WANTS
 # for argument in sys.argv:
 if len(sys.argv) == 1:
@@ -68,7 +100,10 @@ elif len(sys.argv) > 1:
         else:
             delete_task(sys.argv[2])
     elif sys.argv[1] == '-c':
-            print('You want to: Completes a task')
+        if len(sys.argv) == 2:
+            print('\nUnable to check: no index provided\n')
+        else:
+            check_task(sys.argv[2])
     else: # sys.argv[1] != '-l' or '-a' or '-r' or '-c':        
         print('\nUnsupported argument!')
         usage()
